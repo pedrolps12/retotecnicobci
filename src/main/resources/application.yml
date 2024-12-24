@@ -3,13 +3,15 @@ spring:
     name: retotecnico
   h2:
     console.enabled: true
+  sql:
+    init:
+      mode: always
   datasource:
     url: jdbc:h2:file:~/spring-boot-h2-db;AUTO_SERVER=TRUE
     username: sa
     password: password
     driverClassName: org.h2.Driver
-  jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+
 
 security:
   jwt.secret-key: 73eb86e0eb0a2cd7eac296bd0715c29dc15f7ba97b5d9cb65829270016c60816
