@@ -27,13 +27,13 @@ public class User implements UserDetails {
     private String name;
 
     @Column(unique = true, length = 50, nullable = false)
-    private String email;
+   private String email;
 
     @Column(nullable = false)
     private String password;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @Builder.Default
     private List<Phone> phones = new ArrayList<>();
@@ -46,6 +46,7 @@ public class User implements UserDetails {
     @Column(name = "modified_date")
     private Date modified;
 
+    @CreationTimestamp
     @Column(name = "last_login")
     private Date lastLogin;
 

@@ -20,4 +20,17 @@ public class  PhoneMapper {
         }
     }
 
+    public static List<PhoneDto> mapPhoneDto(List<Phone> listPhone) {
+        if (listPhone == null || listPhone.isEmpty()) {
+            return null;
+        } else {
+            return listPhone.stream()
+                    .map(phoneDto ->
+                            PhoneDto.builder().countryCode(phoneDto.getCountryCode())
+                                    .cityCode(phoneDto.getCityCode())
+                                    .number(phoneDto.getNumber()).build()
+                    ).toList();
+        }
+    }
+
 }

@@ -1,8 +1,10 @@
 package com.sermaluc.retotecnico.controller;
 
+import com.sermaluc.retotecnico.dto.UserResponseDto;
 import com.sermaluc.retotecnico.model.User;
 import com.sermaluc.retotecnico.dto.UserDto;
 import com.sermaluc.retotecnico.service.UserServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +14,7 @@ import java.util.List;
 @RequestMapping("api")
 public class UserController {
 
-    private UserServiceImpl userService;
+    private final UserServiceImpl userService;
 
     public UserController(UserServiceImpl userService) {
         this.userService = userService;
@@ -24,9 +26,11 @@ public class UserController {
     }
 
     @PostMapping(value = "/users",
-            consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String addUser(@RequestBody UserDto userDto) {
-        return userService.addUser(userDto);
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserResponseDto addUser(@Valid @RequestBody UserDto userDto,
+                                   @RequestHeader (name="Authorization") String token) {
+        return userService.addUser(userDto, token);
     }
 
 

@@ -49,14 +49,14 @@ public class WebSecurityConfig {
                 headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/h2-console/**")
+                        .permitAll()
                         .requestMatchers("/auth/**")
                         .permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(c ->
                         c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
