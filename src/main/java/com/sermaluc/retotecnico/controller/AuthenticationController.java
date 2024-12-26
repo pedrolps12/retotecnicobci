@@ -1,6 +1,6 @@
 package com.sermaluc.retotecnico.controller;
 
-import com.sermaluc.retotecnico.Constants;
+import com.sermaluc.retotecnico.util.Constants;
 import com.sermaluc.retotecnico.dto.JwtResponse;
 import com.sermaluc.retotecnico.dto.LoginUser;
 import com.sermaluc.retotecnico.model.User;

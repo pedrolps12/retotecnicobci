@@ -1,6 +1,6 @@
 package com.sermaluc.retotecnico.service;
 
-import com.sermaluc.retotecnico.Constants;
+import com.sermaluc.retotecnico.util.Constants;
 import com.sermaluc.retotecnico.dto.LoginUser;
 import com.sermaluc.retotecnico.dto.UserResponseDto;
 import com.sermaluc.retotecnico.mapper.PhoneMapper;
@@ -34,7 +34,7 @@ public class UserService implements UserServiceImpl{
         User user = UserMapper.mapRegisterUser(userDto);
         //Encoding password
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setPhones(PhoneMapper.mapPhone(userDto.getListPhone()));
+        user.setPhones(PhoneMapper.mapPhone(userDto.getPhones()));
         user.setToken(token.replace(Constants.AUTH_BEARER, ""));
         userRepository.save(user);
 

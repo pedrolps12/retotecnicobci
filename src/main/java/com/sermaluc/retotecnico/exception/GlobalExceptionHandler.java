@@ -1,6 +1,6 @@
 package com.sermaluc.retotecnico.exception;
 
-import com.sermaluc.retotecnico.Constants;
+import com.sermaluc.retotecnico.util.Constants;
 import com.sermaluc.retotecnico.dto.ExceptionMessage;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
@@ -50,7 +50,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ExceptionMessage> handleSecurityException(Exception ex) {
         ExceptionMessage exceptionMessage = new ExceptionMessage();
         logger.error("Exceptions: {}", ex.getMessage(), ex);
-        if (ex instanceof DataIntegrityViolationException) {
+         if (ex instanceof DataIntegrityViolationException) {
             ConstraintViolationException exDetail =
                     (ConstraintViolationException) ex.getCause();
             String errorMessage = (Objects.equals(exDetail.getConstraintName(),

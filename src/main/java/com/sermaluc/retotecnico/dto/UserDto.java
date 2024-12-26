@@ -22,7 +22,7 @@ public class UserDto {
     @ValidPassword
     private String password;
 
-    private List<PhoneDto> listPhone;
+    private List<PhoneDto> phones;
 }
 
 

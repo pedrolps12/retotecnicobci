@@ -1,4 +1,4 @@
-package com.sermaluc.retotecnico;
+package com.sermaluc.retotecnico.util;
 
 public class Constants {
 
