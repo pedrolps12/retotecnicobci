@@ -1,15 +1,19 @@
 package com.sermaluc.retotecnico.service;
 
+import com.sermaluc.retotecnico.Constants;
+import com.sermaluc.retotecnico.dto.LoginUser;
+import com.sermaluc.retotecnico.dto.UserResponseDto;
 import com.sermaluc.retotecnico.mapper.PhoneMapper;
-import com.sermaluc.retotecnico.model.Phone;
+import com.sermaluc.retotecnico.mapper.UserMapper;
 import com.sermaluc.retotecnico.model.User;
 import com.sermaluc.retotecnico.dto.UserDto;
 import com.sermaluc.retotecnico.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserServiceImpl{
@@ -25,34 +29,29 @@ public class UserService implements UserServiceImpl{
     }
 
     @Override
-    public String addUser(UserDto userDto) {
-        List<Phone> phones = PhoneMapper.mapPhone(userDto.getListPhone());
-        User user = User.builder()
-                .name(userDto.getName())
-                .email(userDto.getEmail())
-                .isActive(Boolean.TRUE)
-                .password(passwordEncoder.encode(userDto.getPassword()))
-                .build();
-        if(phones != null) {
-            user.getPhones().addAll(phones);
-        }
+    public UserResponseDto addUser(UserDto userDto, String token) {
+
+        User user = UserMapper.mapRegisterUser(userDto);
+        //Encoding password
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setPhones(PhoneMapper.mapPhone(userDto.getListPhone()));
+        user.setToken(token.replace(Constants.AUTH_BEARER, ""));
         userRepository.save(user);
-        return "";
+
+        Optional<User> userEntity = userRepository.findByEmail(userDto.getEmail());
+        return UserMapper.mapUser(userEntity.orElse(null));
     }
 
-    @Override
-    public String editUser(UserDto userDto) {
-        return "";
-    }
+
 
     @Override
-    public void deleteUser(UUID uuid) {
-
-    }
-
-    @Override
-    public User findById(UUID uuid) {
-        return null;
+    public void editUserLogin(LoginUser userDto, String token) {
+        User user = userRepository.findByEmail(userDto.getEmail()).orElse(null);
+        if(user != null) {
+            user.setToken(token);
+            user.setLastLogin(new Date());
+            userRepository.save(user);
+        }
     }
 
     @Override

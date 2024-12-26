@@ -1,9 +1,8 @@
 package com.sermaluc.retotecnico.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -12,6 +11,8 @@ import java.util.UUID;
 @Table(name  = "phones")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class Phone {
 
@@ -24,7 +25,9 @@ public class Phone {
     private String cityCode;
     private String countryCode;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
 
